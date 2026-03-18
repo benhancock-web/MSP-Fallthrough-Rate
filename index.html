@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>MSP — Fallthrough Rate Report</title>
+  <title>MSP — Aged Pipeline Report</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -43,7 +43,7 @@
     }
 
     .header-logo {
-      height: 32px;
+      height: 28px;
       width: auto;
       display: block;
     }
@@ -252,68 +252,76 @@
       text-overflow: ellipsis;
     }
 
-    /* Summary widget */
-    .summary-widget {
+    /* Summary widgets */
+    .summary-widgets {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .summary-card {
       background: #fff;
       border-radius: 10px;
-      padding: 20px 24px;
+      padding: 16px 18px;
       box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-      margin-bottom: 20px;
-      text-align: center;
+      border-left: 4px solid #0C3C60;
     }
 
-    .summary-widget-title {
-      font-size: 12px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #666;
-      margin-bottom: 12px;
-    }
-
-    .summary-widget-rate {
-      font-size: 48px;
-      font-weight: 800;
-      margin-bottom: 16px;
-      display: flex;
-      align-items: baseline;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .rate-percentage {
-      font-size: 48px;
-      font-weight: 800;
-    }
-
-    .summary-stats {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      padding-top: 12px;
-      border-top: 1px solid #eef0f3;
-    }
-
-    .stat-item {
-      text-align: center;
-    }
-
-    .stat-label {
-      font-size: 11px;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-      color: #888;
-      margin-bottom: 4px;
-    }
-
-    .stat-value {
-      font-size: 20px;
+    .summary-card-title {
+      font-size: 13px;
       font-weight: 700;
-      color: #333;
+      color: #222;
+      margin-bottom: 8px;
     }
 
-    /* Filter controls */
+    .summary-card-count {
+      font-size: 28px;
+      font-weight: 800;
+      color: #0C3C60;
+    }
+
+    .summary-card.aged-90 {
+      border-left-color: #00c875;
+    }
+
+    .summary-card.aged-90 .summary-card-count {
+      color: #00c875;
+    }
+
+    .summary-card.aged-120 {
+      border-left-color: #fdab3d;
+    }
+
+    .summary-card.aged-120 .summary-card-count {
+      color: #fdab3d;
+    }
+
+    .summary-card.aged-180 {
+      border-left-color: #ff642e;
+    }
+
+    .summary-card.aged-180 .summary-card-count {
+      color: #ff642e;
+    }
+
+    .summary-card.aged-180plus {
+      border-left-color: #e2445c;
+    }
+
+    .summary-card.aged-180plus .summary-card-count {
+      color: #e2445c;
+    }
+
+    .summary-card.no-date {
+      border-left-color: #999;
+    }
+
+    .summary-card.no-date .summary-card-count {
+      color: #999;
+    }
+
+    /* Progressor filter */
     .filter-controls {
       background: #fff;
       border-radius: 10px;
@@ -361,40 +369,24 @@
       border-color: #0C3C60;
     }
 
-    /* Toggle styling */
     .toggle-container {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       margin-left: auto;
     }
-
-    .toggle-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: #666;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .toggle-label.active {
-      color: #0C3C60;
-    }
-
+    .toggle-label { font-size: 12px; font-weight: 600; color: #999; text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; transition: color 0.2s; }
+    .toggle-label.active { color: #0C3C60; }
     .toggle-switch {
-      position: relative;
       width: 44px;
       height: 24px;
       background: #ccc;
       border-radius: 12px;
       cursor: pointer;
+      position: relative;
       transition: background 0.2s;
     }
-
-    .toggle-switch.active {
-      background: #0C3C60;
-    }
-
+    .toggle-switch.active { background: #0C3C60; }
     .toggle-switch::after {
       content: '';
       position: absolute;
@@ -405,42 +397,50 @@
       background: #fff;
       border-radius: 50%;
       transition: transform 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     }
+    .toggle-switch.active::after { transform: translateX(20px); }
 
-    .toggle-switch.active::after {
-      transform: translateX(20px);
-    }
-
-    /* Section cards */
-    .section-card {
-      background: #fff;
-      border-radius: 10px;
-      padding: 20px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    /* Age band sections */
+    .age-band-section {
       margin-bottom: 20px;
     }
 
-    .section-header {
+    .age-band-header {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
-    }
-
-    .section-header h3 {
-      font-size: 15px;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-bottom: 2px;
+      color: #fff;
       font-weight: 700;
-      color: #222;
+      font-size: 13px;
+      user-select: none;
     }
 
-    .section-subtitle {
+    .age-band-header .band-count {
+      background: rgba(255,255,255,0.3);
+      border-radius: 12px;
+      padding: 2px 10px;
       font-size: 12px;
-      color: #999;
-      font-weight: 400;
-      margin-top: 2px;
     }
 
-    /* Fallthrough table */
+    .age-band-body {
+      display: none;
+      margin-bottom: 16px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      overflow: hidden;
+    }
+
+    .age-band-body.open {
+      display: block;
+    }
+
+    /* Age band table */
     .items-table {
       width: 100%;
       border-collapse: collapse;
@@ -475,30 +475,38 @@
       border-bottom: none;
     }
 
-    .items-table tbody tr.total-row {
-      background: #f7f9fc;
-      font-weight: 700;
-    }
-
-    .items-table tbody tr.total-row td {
-      padding: 10px 12px;
-      border-top: 2px solid #ddd;
-    }
-
-    .rate-cell {
+    .items-table a {
+      color: #0C3C60;
+      text-decoration: none;
       font-weight: 600;
-      padding: 8px 12px;
     }
 
-    .rate-green { color: #00c875; }
-    .rate-amber { color: #fdab3d; }
-    .rate-red { color: #e2445c; }
+    .items-table a:hover {
+      text-decoration: underline;
+    }
 
     /* Chart containers */
     .chart-container {
       position: relative;
-      height: 400px;
+      height: 300px;
       margin-bottom: 20px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
+    .section-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-header h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: #222;
     }
 
     /* Login overlay */
@@ -621,7 +629,7 @@
       <img class="header-logo" src="data:image/jpeg;base64,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" alt="Momentum" />
     </div>
     <div class="header-divider"></div>
-    <h1>Fallthrough Rate Report</h1>
+    <h1>Aged Pipeline Report</h1>
   </div>
   <div class="header-right">
     <div id="refresh-info">
@@ -655,31 +663,15 @@
     </div>
   </div>
 
-  <!-- Summary widget -->
-  <div class="summary-widget" id="summary-widget">
-    <div class="summary-widget-title">Overall Fallthrough Rate</div>
-    <div class="summary-widget-rate">
-      <span class="rate-percentage" id="summary-rate">—</span>
-      <span style="font-size: 24px;">%</span>
-    </div>
-    <div class="summary-stats">
-      <div class="stat-item">
-        <div class="stat-label">Total Properties</div>
-        <div class="stat-value" id="summary-total">—</div>
-      </div>
-      <div class="stat-item">
-        <div class="stat-label">Fallthroughs</div>
-        <div class="stat-value" id="summary-fallthroughs">—</div>
-      </div>
-    </div>
-  </div>
+  <!-- Summary widgets -->
+  <div class="summary-widgets" id="summary-widgets"></div>
 
-  <!-- Filter controls (Year + Toggle) -->
+  <!-- Progressor filter -->
   <div class="filter-controls">
     <div class="filter-control-group">
-      <label for="year-select">Year</label>
-      <select id="year-select" onchange="applyFilters()">
-        <option value="">All Years</option>
+      <label for="progressor-select">Sales Progressor</label>
+      <select id="progressor-select" onchange="applyFilters()">
+        <option value="">All Progressors</option>
       </select>
     </div>
     <div class="toggle-container">
@@ -689,27 +681,25 @@
     </div>
   </div>
 
-  <!-- Breakdown Table -->
-  <div class="section-card">
+  <!-- Age band sections -->
+  <div id="age-band-container"></div>
+
+  <!-- Distribution chart -->
+  <div class="chart-container">
     <div class="section-header">
-      <div>
-        <h3 id="table-title">Fallthrough Rate by Agent</h3>
-        <div class="section-subtitle" id="table-subtitle">Sorted by highest rate first</div>
-      </div>
+      <h3>Distribution by Age Band</h3>
     </div>
-    <div id="breakdown-table-container"></div>
+    <canvas id="distribution-chart" style="max-height: 250px;"></canvas>
   </div>
 
-  <!-- Bar Chart -->
-  <div class="section-card">
+  <!-- Age Distribution by Entity -->
+  <div class="chart-container" style="margin-top: 20px;">
     <div class="section-header">
-      <div>
-        <h3 id="chart-title">Fallthrough Rate by Agent</h3>
-        <div class="section-subtitle">Visual breakdown of rates</div>
-      </div>
+      <h3 id="entity-chart-title">Age Distribution by Agent</h3>
+      <div class="section-subtitle" id="entity-chart-subtitle">Properties per agent, coloured by age band</div>
     </div>
-    <div class="chart-container">
-      <canvas id="breakdown-chart"></canvas>
+    <div style="height: 400px; position: relative;">
+      <canvas id="entity-chart"></canvas>
     </div>
   </div>
 </main>
@@ -731,16 +721,15 @@
   // ────────────────────────────────────────────────────────────────────────────
   const CF_BASE_URL = 'https://europe-west2-momentum-sp-invoicing.cloudfunctions.net/momentum-invoicing';
   const COOKIE_NAME = 'msp_api_key';
-  const BOARD_FILTER_KEY = 'msp-fallthrough-board-filter';
+  const BOARD_FILTER_KEY = 'msp-aged-pipeline-board-filter';
   const REFRESH_INTERVAL_MS = 3 * 60 * 60 * 1000;
 
-  const RATE_THRESHOLDS = { green: 5, amber: 15 };
-
-  const AUTO_DETECT = {
-    live:  t => (/live|pipeline/.test(t) && !/live gross/.test(t)),
-    falls: t => /fall|withdrawn|cancel/.test(t),
-    exch:  t => /exchang|complet|invoice|banked/.test(t)
-  };
+  const AGE_BANDS = [
+    { label: '0–90 days', min: 0, max: 90, colour: '#00c875' },
+    { label: '91–120 days', min: 91, max: 120, colour: '#fdab3d' },
+    { label: '121–180 days', min: 121, max: 180, colour: '#ff642e' },
+    { label: '180+ days', min: 181, max: Infinity, colour: '#e2445c' }
+  ];
 
   // ────────────────────────────────────────────────────────────────────────────
   // STATE
@@ -748,6 +737,7 @@
   let apiKey = '';
   let boardsCache = [];
   let boardItemsCache = {};
+  let allDiscoveredColumns = [];
   let byAgent = true;  // true = agent view, false = progressor view
   const charts = {};
 
@@ -828,6 +818,7 @@
 
   async function fetchAllSPBoards() {
     const data = await cfFetch('/boards');
+    allDiscoveredColumns = (data.allDiscoveredColumns || []);
     return data.boards || [];
   }
 
@@ -854,11 +845,11 @@
       );
       for (const { boardId, boardName, items, colMap } of results) {
         boardItemsCache[boardId] = items.map(item => ({
-          item, colMap, boardName
+          item, colMap, boardName, boardId
         }));
       }
       loaded += slice.length;
-      statusBar.textContent = `Loaded ${loaded} / ${boards.length} boards…`;
+      statusBar.textContent = `Loaded ${loaded} / ${boards.length} boards\u2026`;
     }
   }
 
@@ -874,7 +865,7 @@
   // ────────────────────────────────────────────────────────────────────────────
   // DATA EXTRACTION
   // ────────────────────────────────────────────────────────────────────────────
-  function extractItemData(item, colMap, boardName) {
+  function extractItemData(item, colMap, boardName, boardId) {
     let owner = '', mosSentDate = '';
 
     for (const cv of (item.column_values || [])) {
@@ -889,19 +880,9 @@
     }
 
     const spStatus = item.group?.title || '';
-    return { owner, mosSentDate, spStatus, boardName };
-  }
-
-  function getRateColour(rate) {
-    if (rate < RATE_THRESHOLDS.green) return '#00c875';
-    if (rate < RATE_THRESHOLDS.amber) return '#fdab3d';
-    return '#e2445c';
-  }
-
-  function getRateClass(rate) {
-    if (rate < RATE_THRESHOLDS.green) return 'rate-green';
-    if (rate < RATE_THRESHOLDS.amber) return 'rate-amber';
-    return 'rate-red';
+    const itemName = item.name || '';
+    const itemId = item.id || '';
+    return { owner, mosSentDate, spStatus, boardName, boardId, itemName, itemId };
   }
 
   // ────────────────────────────────────────────────────────────────────────────
@@ -958,8 +939,336 @@
   }
 
   // ────────────────────────────────────────────────────────────────────────────
-  // TOGGLE VIEW
+  // AGED PIPELINE CALCULATIONS
   // ────────────────────────────────────────────────────────────────────────────
+  function calculateDaysInPipeline(mosSentDate) {
+    if (!mosSentDate) return -1; // flag as no date
+    const [year, month, day] = mosSentDate.split('-');
+    if (!year || !month || !day) return -1;
+    const sentDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    sentDate.setHours(0, 0, 0, 0);
+    const diffMs = today.getTime() - sentDate.getTime();
+    return Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  }
+
+  function isLiveGroup(groupTitle) {
+    if (!groupTitle) return false;
+    const lower = groupTitle.toLowerCase();
+    return lower.includes('live') && !lower.includes('live gross');
+  }
+
+  function processAgedPipelineData(items, selectedProgressor) {
+    const properties = [];
+    const noDatProperties = [];
+    let totalLive = 0;
+
+    for (const { item, colMap, boardName, boardId } of items) {
+      const data = extractItemData(item, colMap, boardName, boardId);
+      const { owner, mosSentDate, spStatus } = data;
+
+      // Only include if in "Live" group
+      if (!isLiveGroup(spStatus)) continue;
+      totalLive++;
+
+      // Apply progressor filter
+      if (selectedProgressor && owner !== selectedProgressor) continue;
+
+      const days = calculateDaysInPipeline(mosSentDate);
+
+      if (days === -1) {
+        noDatProperties.push({
+          ...data,
+          days: 0
+        });
+      } else {
+        properties.push({
+          ...data,
+          days
+        });
+      }
+    }
+
+    // Group by age band
+    const byBand = {};
+    AGE_BANDS.forEach(band => {
+      byBand[band.label] = properties.filter(p => p.days >= band.min && p.days <= band.max);
+    });
+
+    return { properties, noDatProperties, byBand, totalLive };
+  }
+
+  // ────────────────────────────────────────────────────────────────────────────
+  // RENDER FUNCTIONS
+  // ────────────────────────────────────────────────────────────────────────────
+  function renderSummaryWidgets(properties, noDatProperties, totalLive) {
+    const container = document.getElementById('summary-widgets');
+    container.innerHTML = '';
+
+    const aged90 = properties.filter(p => p.days > 90).length;
+    const aged120 = properties.filter(p => p.days > 120).length;
+    const aged180 = properties.filter(p => p.days > 180).length;
+
+    const cards = [
+      {
+        title: 'Total Live Properties',
+        count: totalLive,
+        className: 'summary-card'
+      },
+      {
+        title: 'Aged > 90 Days',
+        count: aged90,
+        className: 'summary-card aged-90'
+      },
+      {
+        title: 'Aged > 120 Days',
+        count: aged120,
+        className: 'summary-card aged-120'
+      },
+      {
+        title: 'Aged > 180 Days',
+        count: aged180,
+        className: 'summary-card aged-180plus'
+      },
+      {
+        title: 'No MOS Date',
+        count: noDatProperties.length,
+        className: 'summary-card no-date'
+      }
+    ];
+
+    cards.forEach(card => {
+      container.innerHTML += `
+        <div class="${card.className}">
+          <div class="summary-card-title">${card.title}</div>
+          <div class="summary-card-count">${card.count}</div>
+        </div>
+      `;
+    });
+  }
+
+  function renderAgeBandSections(byBand, allProperties) {
+    const container = document.getElementById('age-band-container');
+    container.innerHTML = '';
+
+    AGE_BANDS.forEach((band, idx) => {
+      const props = byBand[band.label];
+      props.sort((a, b) => b.days - a.days); // descending
+
+      const section = document.createElement('div');
+      section.className = 'age-band-section';
+
+      const header = document.createElement('div');
+      header.className = 'age-band-header';
+      header.style.backgroundColor = band.colour;
+      header.onclick = () => body.classList.toggle('open');
+      header.innerHTML = `
+        <span>${band.label}</span>
+        <span class="band-count">${props.length}</span>
+      `;
+
+      const body = document.createElement('div');
+      body.className = 'age-band-body open';
+
+      if (props.length === 0) {
+        body.innerHTML = '<div class="empty-state"><p>No properties in this age band</p></div>';
+      } else {
+        let tableHtml = `
+          <table class="items-table">
+            <thead>
+              <tr>
+                <th>Property Address</th>
+                <th>Estate Agent</th>
+                <th>Sales Progressor</th>
+                <th>MOS Sent Date</th>
+                <th>Days in Pipeline</th>
+              </tr>
+            </thead>
+            <tbody>
+        `;
+
+        props.forEach(prop => {
+          const mosDate = prop.mosSentDate ? new Date(prop.mosSentDate + 'T00:00:00').toLocaleDateString('en-GB') : '—';
+          const mondayLink = `https://marks-team879428.monday.com/boards/${prop.boardId}/pulses/${prop.itemId}`;
+          tableHtml += `
+            <tr>
+              <td><a href="${mondayLink}" target="_blank">${prop.itemName}</a></td>
+              <td>${prop.boardName}</td>
+              <td>${prop.owner || '—'}</td>
+              <td>${mosDate}</td>
+              <td><strong>${prop.days}</strong></td>
+            </tr>
+          `;
+        });
+
+        tableHtml += `
+            </tbody>
+          </table>
+        `;
+        body.innerHTML = tableHtml;
+      }
+
+      section.appendChild(header);
+      section.appendChild(body);
+      container.appendChild(section);
+    });
+  }
+
+  function renderDistributionChart(properties) {
+    const canvas = document.getElementById('distribution-chart');
+    if (!canvas) return;
+
+    const labels = AGE_BANDS.map(b => b.label);
+    const values = labels.map(label => {
+      const band = AGE_BANDS.find(b => b.label === label);
+      return properties.filter(p => p.days >= band.min && p.days <= band.max).length;
+    });
+    const colours = AGE_BANDS.map(b => b.colour);
+
+    if (charts['distribution-chart']) {
+      charts['distribution-chart'].destroy();
+    }
+
+    charts['distribution-chart'] = new Chart(canvas, {
+      type: 'bar',
+      data: {
+        labels,
+        datasets: [{
+          label: 'Properties',
+          data: values,
+          backgroundColor: colours,
+          borderRadius: 6,
+          borderSkipped: false
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) {
+                return ctx.parsed.x + ' properties';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            beginAtZero: true,
+            ticks: { font: { size: 11 } },
+            grid: { color: '#f0f2f5' }
+          },
+          y: {
+            ticks: { font: { size: 11 } },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  function renderEntityChart(properties) {
+    const canvas = document.getElementById('entity-chart');
+    if (!canvas) return;
+
+    // Update titles
+    const viewLabel = byAgent ? 'Agent' : 'Progressor';
+    document.getElementById('entity-chart-title').textContent = `Age Distribution by ${viewLabel}`;
+    document.getElementById('entity-chart-subtitle').textContent = `Properties per ${viewLabel.toLowerCase()}, coloured by age band`;
+
+    // Group properties by entity
+    const entityMap = {};
+    for (const prop of properties) {
+      const key = byAgent ? prop.boardName : (prop.owner || '(Unknown)');
+      if (!entityMap[key]) entityMap[key] = [];
+      entityMap[key].push(prop);
+    }
+
+    // Sort by total property count descending
+    const entities = Object.entries(entityMap).sort((a, b) => b[1].length - a[1].length);
+    const labels = entities.map(([name]) => name);
+
+    // Build datasets — one per age band
+    const datasets = AGE_BANDS.map(band => ({
+      label: band.label,
+      data: entities.map(([, props]) => props.filter(p => p.days >= band.min && p.days <= band.max).length),
+      backgroundColor: band.colour,
+      borderRadius: 4,
+      borderSkipped: false
+    }));
+
+    if (charts['entity-chart']) {
+      charts['entity-chart'].destroy();
+    }
+
+    // Adjust chart height based on number of entities
+    const chartHeight = Math.max(300, entities.length * 32 + 60);
+    canvas.parentElement.style.height = chartHeight + 'px';
+
+    charts['entity-chart'] = new Chart(canvas, {
+      type: 'bar',
+      data: { labels, datasets },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: { font: { size: 11 }, padding: 12, boxWidth: 14 }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) {
+                return ctx.dataset.label + ': ' + ctx.parsed.x + ' properties';
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            stacked: true,
+            beginAtZero: true,
+            ticks: { font: { size: 11 }, stepSize: 1 },
+            grid: { color: '#f0f2f5' }
+          },
+          y: {
+            stacked: true,
+            ticks: { font: { size: 11 } },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  }
+
+  function populateProgressorSelect(items) {
+    const progressors = new Set();
+    for (const { item, colMap, boardName, boardId } of items) {
+      const data = extractItemData(item, colMap, boardName, boardId);
+      if (isLiveGroup(data.spStatus) && data.owner) {
+        progressors.add(data.owner);
+      }
+    }
+
+    const select = document.getElementById('progressor-select');
+    const current = select.value;
+    select.innerHTML = '<option value="">All Progressors</option>';
+
+    Array.from(progressors).sort().forEach(prog => {
+      const opt = document.createElement('option');
+      opt.value = prog;
+      opt.textContent = prog;
+      select.appendChild(opt);
+    });
+
+    select.value = current;
+  }
+
   function toggleView() {
     byAgent = !byAgent;
     const toggle = document.getElementById('toggle-switch');
@@ -980,273 +1289,17 @@
   }
 
   // ────────────────────────────────────────────────────────────────────────────
-  // FALLTHROUGH RATE CALCULATION
-  // ────────────────────────────────────────────────────────────────────────────
-  function processFallthroughData(items, selectedYear) {
-    const entities = {};  // { entityName: { live, falls, exch } }
-    const yearSet = new Set();
-
-    for (const { item, colMap, boardName } of items) {
-      const data = extractItemData(item, colMap, boardName);
-      const { owner, mosSentDate, spStatus, boardName: bName } = data;
-
-      // Track years from MOS Sent date
-      if (mosSentDate) {
-        const [year] = mosSentDate.split('-');
-        if (year) yearSet.add(parseInt(year));
-      }
-
-      // Apply year filter
-      if (selectedYear && mosSentDate) {
-        const [year] = mosSentDate.split('-');
-        if (parseInt(year) !== selectedYear) continue;
-      } else if (selectedYear && !mosSentDate) {
-        // If specific year is selected, exclude items without MOS date
-        continue;
-      }
-
-      const statusLower = spStatus.toLowerCase();
-      const category = AUTO_DETECT.live(statusLower) ? 'live'
-                     : AUTO_DETECT.falls(statusLower) ? 'falls'
-                     : AUTO_DETECT.exch(statusLower) ? 'exch'
-                     : null;
-
-      if (!category) continue;
-
-      if (byAgent) {
-        // By Agent: count once per board
-        if (!entities[bName]) entities[bName] = { live: 0, falls: 0, exch: 0 };
-        entities[bName][category]++;
-      } else {
-        // By Progressor: count once per owner (split for dual owners)
-        const owners = owner.split(',').map(o => o.trim()).filter(o => o);
-        if (owners.length === 0) owners.push('(Unknown)');
-
-        for (const prog of owners) {
-          if (!entities[prog]) entities[prog] = { live: 0, falls: 0, exch: 0 };
-          entities[prog][category]++;
-        }
-      }
-    }
-
-    return { entities, yearSet };
-  }
-
-  function calculateRates(entities) {
-    const rates = [];
-    let totalLive = 0, totalFalls = 0, totalExch = 0;
-
-    for (const [name, counts] of Object.entries(entities)) {
-      const total = counts.live + counts.falls + counts.exch;
-      if (total === 0) continue;
-
-      const rate = (counts.falls / total) * 100;
-      rates.push({ name, ...counts, total, rate });
-
-      totalLive += counts.live;
-      totalFalls += counts.falls;
-      totalExch += counts.exch;
-    }
-
-    // Sort by rate descending (worst first)
-    rates.sort((a, b) => b.rate - a.rate);
-
-    const overallTotal = totalLive + totalFalls + totalExch;
-    const overallRate = overallTotal > 0 ? (totalFalls / overallTotal) * 100 : 0;
-
-    return { rates, overallRate, totalLive, totalFalls, totalExch, overallTotal };
-  }
-
-  // ────────────────────────────────────────────────────────────────────────────
-  // RENDER FUNCTIONS
-  // ────────────────────────────────────────────────────────────────────────────
-  function renderSummaryWidget(overallRate, overallTotal, totalFalls) {
-    const rateColour = getRateColour(overallRate);
-    document.getElementById('summary-rate').style.color = rateColour;
-    document.getElementById('summary-rate').textContent = overallRate.toFixed(1);
-    document.getElementById('summary-total').textContent = overallTotal;
-    document.getElementById('summary-fallthroughs').textContent = totalFalls;
-  }
-
-  function renderBreakdownTable(rates) {
-    const container = document.getElementById('breakdown-table-container');
-
-    if (rates.length === 0) {
-      container.innerHTML = '<div class="empty-state"><p>No data for selected filters</p></div>';
-      return;
-    }
-
-    let rows = '';
-    let totalLive = 0, totalFalls = 0, totalExch = 0, totalProps = 0;
-
-    for (const r of rates) {
-      const rateClass = getRateClass(r.rate);
-      rows += `
-        <tr>
-          <td><strong>${r.name}</strong></td>
-          <td>${r.total}</td>
-          <td>${r.falls}</td>
-          <td class="rate-cell ${rateClass}">${r.rate.toFixed(1)}%</td>
-        </tr>
-      `;
-      totalLive += r.live;
-      totalFalls += r.falls;
-      totalExch += r.exch;
-      totalProps += r.total;
-    }
-
-    const totalRate = totalProps > 0 ? (totalFalls / totalProps) * 100 : 0;
-    const totalRateClass = getRateClass(totalRate);
-
-    rows += `
-      <tr class="total-row">
-        <td>TOTAL</td>
-        <td>${totalProps}</td>
-        <td>${totalFalls}</td>
-        <td class="rate-cell ${totalRateClass}">${totalRate.toFixed(1)}%</td>
-      </tr>
-    `;
-
-    container.innerHTML = `
-      <table class="items-table">
-        <thead>
-          <tr>
-            <th>${byAgent ? 'Agent' : 'Progressor'}</th>
-            <th>Total Properties</th>
-            <th>Fallthroughs</th>
-            <th>Fallthrough Rate</th>
-          </tr>
-        </thead>
-        <tbody>${rows}</tbody>
-      </table>
-    `;
-  }
-
-  function renderBreakdownChart(rates) {
-    const canvas = document.getElementById('breakdown-chart');
-    if (!canvas) return;
-
-    const labels = rates.map(r => r.name);
-    const values = rates.map(r => r.rate);
-    const colours = values.map(v => getRateColour(v));
-
-    if (charts['breakdown-chart']) {
-      charts['breakdown-chart'].destroy();
-    }
-
-    charts['breakdown-chart'] = new Chart(canvas, {
-      type: 'bar',
-      data: {
-        labels,
-        datasets: [{
-          label: 'Fallthrough Rate (%)',
-          data: values,
-          backgroundColor: colours,
-          borderWidth: 0
-        }]
-      },
-      options: {
-        indexAxis: 'y',
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-          legend: { display: false },
-          tooltip: {
-            callbacks: {
-              label: function(ctx) {
-                return ctx.parsed.x.toFixed(1) + '%';
-              }
-            }
-          }
-        },
-        scales: {
-          x: {
-            beginAtZero: true,
-            max: 100,
-            grid: { color: '#f0f2f5' },
-            ticks: {
-              font: { size: 11 },
-              callback: function(value) { return value + '%'; }
-            }
-          },
-          y: {
-            grid: { display: false },
-            ticks: { font: { size: 11 } }
-          }
-        }
-      }
-    });
-  }
-
-  // ────────────────────────────────────────────────────────────────────────────
   // FILTER APPLICATION
   // ────────────────────────────────────────────────────────────────────────────
-  function populateYearSelect(items) {
-    const yearSet = new Set();
-    for (const { item, colMap } of items) {
-      const data = extractItemData(item, colMap, '');
-      if (data.mosSentDate) {
-        const [y] = data.mosSentDate.split('-');
-        if (y) yearSet.add(parseInt(y));
-      }
-    }
-
-    const yearSelect = document.getElementById('year-select');
-    const years = Array.from(yearSet).sort((a, b) => b - a);
-    const currentYear = new Date().getFullYear();
-
-    // Keep "All Years" option
-    while (yearSelect.children.length > 1) {
-      yearSelect.removeChild(yearSelect.lastChild);
-    }
-
-    for (const y of years) {
-      const opt = document.createElement('option');
-      opt.value = y;
-      opt.textContent = y;
-      yearSelect.appendChild(opt);
-    }
-
-    // Set default to current year
-    if (yearSelect.value === '') {
-      yearSelect.value = currentYear;
-    }
-  }
-
   function applyFilters() {
-    const yearVal = document.getElementById('year-select').value;
-    const selectedYear = yearVal ? parseInt(yearVal) : 0;
-
+    const selectedProgressor = document.getElementById('progressor-select').value || '';
     const items = getCheckedItems();
-    const { entities } = processFallthroughData(items, selectedYear);
-    const { rates } = calculateRates(entities);
+    const { properties, noDatProperties, byBand, totalLive } = processAgedPipelineData(items, selectedProgressor);
 
-    // Calculate summary totals from raw items (each property counted once, regardless of grouping)
-    let trueLive = 0, trueFalls = 0, trueExch = 0;
-    for (const { item, colMap, boardName } of items) {
-      const data = extractItemData(item, colMap, boardName);
-      if (selectedYear && data.mosSentDate) {
-        const [y] = data.mosSentDate.split('-');
-        if (parseInt(y) !== selectedYear) continue;
-      } else if (selectedYear && !data.mosSentDate) {
-        continue;
-      }
-      const statusLower = data.spStatus.toLowerCase();
-      if (AUTO_DETECT.live(statusLower)) trueLive++;
-      else if (AUTO_DETECT.falls(statusLower)) trueFalls++;
-      else if (AUTO_DETECT.exch(statusLower)) trueExch++;
-    }
-    const trueTotal = trueLive + trueFalls + trueExch;
-    const trueRate = trueTotal > 0 ? (trueFalls / trueTotal) * 100 : 0;
-
-    // Update titles
-    const viewLabel = byAgent ? 'Agent' : 'Progressor';
-    document.getElementById('table-title').textContent = `Fallthrough Rate by ${viewLabel}`;
-    document.getElementById('chart-title').textContent = `Fallthrough Rate by ${viewLabel}`;
-
-    renderSummaryWidget(trueRate, trueTotal, trueFalls);
-    renderBreakdownTable(rates);
-    renderBreakdownChart(rates);
+    renderSummaryWidgets(properties, noDatProperties, totalLive);
+    renderAgeBandSections(byBand, properties);
+    renderDistributionChart(properties);
+    renderEntityChart(properties);
   }
 
   // ────────────────────────────────────────────────────────────────────────────
@@ -1270,7 +1323,7 @@
       await fetchAndCacheAllItems(boardsCache);
 
       const allItems = getCheckedItems();
-      populateYearSelect(allItems);
+      populateProgressorSelect(allItems);
 
       statusBar.textContent = 'Rendering…';
       applyFilters();

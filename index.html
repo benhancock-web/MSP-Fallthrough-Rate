@@ -684,7 +684,7 @@
     </div>
     <div class="toggle-container">
       <span class="toggle-label active" id="label-agent">By Agent</span>
-      <div class="toggle-switch active" id="toggle-switch" onclick="toggleView()"></div>
+      <div class="toggle-switch" id="toggle-switch" onclick="toggleView()"></div>
       <span class="toggle-label" id="label-progressor">By Progressor</span>
     </div>
   </div>
@@ -883,7 +883,7 @@
 
       if (colTitle === 'owner' || colTitle === 'person') {
         if (text) owner = text;
-      } else if (colTitle === 'mos sent to msp') {
+      } else if (colTitle.includes('mos') && !mosSentDate) {
         mosSentDate = text;
       }
     }
@@ -967,11 +967,11 @@
     const labelProgressor = document.getElementById('label-progressor');
 
     if (byAgent) {
-      toggle.classList.add('active');
+      toggle.classList.remove('active');
       labelAgent.classList.add('active');
       labelProgressor.classList.remove('active');
     } else {
-      toggle.classList.remove('active');
+      toggle.classList.add('active');
       labelAgent.classList.remove('active');
       labelProgressor.classList.add('active');
     }
@@ -1219,14 +1219,32 @@
 
     const items = getCheckedItems();
     const { entities } = processFallthroughData(items, selectedYear);
-    const { rates, overallRate, totalLive, totalFalls, totalExch, overallTotal } = calculateRates(entities);
+    const { rates } = calculateRates(entities);
+
+    // Calculate summary totals from raw items (each property counted once, regardless of grouping)
+    let trueLive = 0, trueFalls = 0, trueExch = 0;
+    for (const { item, colMap, boardName } of items) {
+      const data = extractItemData(item, colMap, boardName);
+      if (selectedYear && data.mosSentDate) {
+        const [y] = data.mosSentDate.split('-');
+        if (parseInt(y) !== selectedYear) continue;
+      } else if (selectedYear && !data.mosSentDate) {
+        continue;
+      }
+      const statusLower = data.spStatus.toLowerCase();
+      if (AUTO_DETECT.live(statusLower)) trueLive++;
+      else if (AUTO_DETECT.falls(statusLower)) trueFalls++;
+      else if (AUTO_DETECT.exch(statusLower)) trueExch++;
+    }
+    const trueTotal = trueLive + trueFalls + trueExch;
+    const trueRate = trueTotal > 0 ? (trueFalls / trueTotal) * 100 : 0;
 
     // Update titles
     const viewLabel = byAgent ? 'Agent' : 'Progressor';
     document.getElementById('table-title').textContent = `Fallthrough Rate by ${viewLabel}`;
     document.getElementById('chart-title').textContent = `Fallthrough Rate by ${viewLabel}`;
 
-    renderSummaryWidget(overallRate, overallTotal, totalFalls);
+    renderSummaryWidget(trueRate, trueTotal, trueFalls);
     renderBreakdownTable(rates);
     renderBreakdownChart(rates);
   }
